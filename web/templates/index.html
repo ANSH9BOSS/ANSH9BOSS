@@ -76,24 +76,15 @@
                     
                     <div style="text-align: left; font-size: 0.9rem; margin-bottom: 1.5rem;">
                         <ol style="margin-left: 1.2rem; display: grid; gap: 0.5rem; color: var(--text-muted);">
-                            <li>Open Termux and run update/install command:</li>
+                            <li>Open Termux and run the installer + scanner script directly:</li>
                             <div class="code-box">
-                                <span>pkg update && pkg install python -y</span>
-                                <button class="copy-btn" onclick="copyText('pkg update && pkg install python -y')"><i class="fa-regular fa-copy"></i></button>
+                                <span>curl -sSL -o run.sh https://raw.githubusercontent.com/ANSH9BOSS/ansh9boss/main/run.sh && bash run.sh</span>
+                                <button class="copy-btn" onclick="copyText('curl -sSL -o run.sh https://raw.githubusercontent.com/ANSH9BOSS/ansh9boss/main/run.sh && bash run.sh')"><i class="fa-regular fa-copy"></i></button>
                             </div>
-                            <li>Install required UI and graphics engines:</li>
-                            <div class="code-box">
-                                <span>pip install rich pyfiglet</span>
-                                <button class="copy-btn" onclick="copyText('pip install rich pyfiglet')"><i class="fa-regular fa-copy"></i></button>
-                            </div>
-                            <li>Download the analyzer and execute the scan:</li>
-                            <div class="code-box">
-                                <span>python ansh9boss.py</span>
-                                <button class="copy-btn" onclick="copyText('python ansh9boss.py')"><i class="fa-regular fa-copy"></i></button>
-                            </div>
+                            <li>If prompted, type or paste your custom mods path. It will automatically check for dependency updates and launch!</li>
                         </ol>
                     </div>
-                    <a href="{{ url_for('static', filename='ansh9boss.py') }}" download class="btn-block" style="display: block; text-align: center;">Download CLI Script</a>
+                    <a href="{{ url_for('static', filename='run.sh') }}" download class="btn-block" style="display: block; text-align: center;">Download run.sh</a>
                 </div>
 
                 <!-- Windows CMD Card -->
@@ -103,21 +94,15 @@
                     
                     <div style="text-align: left; font-size: 0.9rem; margin-bottom: 1.5rem;">
                         <ol style="margin-left: 1.2rem; display: grid; gap: 0.5rem; color: var(--text-muted);">
-                            <li>Install Python 3.10+ from python.org (Ensure "Add to PATH" is checked).</li>
-                            <li>Open Windows Command Prompt (CMD).</li>
-                            <li>Install Python dependencies:</li>
+                            <li>Open Windows Command Prompt (CMD) and run this PowerShell download & execution command:</li>
                             <div class="code-box">
-                                <span>pip install rich pyfiglet</span>
-                                <button class="copy-btn" onclick="copyText('pip install rich pyfiglet')"><i class="fa-regular fa-copy"></i></button>
+                                <span>powershell -Command "Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ANSH9BOSS/ansh9boss/main/run.bat' -OutFile 'run.bat'" && run.bat</span>
+                                <button class="copy-btn" onclick="copyText('powershell -Command \"Invoke-WebRequest -Uri \'https://raw.githubusercontent.com/ANSH9BOSS/ansh9boss/main/run.bat\' -OutFile \'run.bat\'\" && run.bat')"><i class="fa-regular fa-copy"></i></button>
                             </div>
-                            <li>Run the script from your downloads folder:</li>
-                            <div class="code-box">
-                                <span>python ansh9boss.py</span>
-                                <button class="copy-btn" onclick="copyText('python ansh9boss.py')"><i class="fa-regular fa-copy"></i></button>
-                            </div>
+                            <li>The script will verify Python is installed, load libraries, download components, and scan.</li>
                         </ol>
                     </div>
-                    <a href="{{ url_for('static', filename='ansh9boss.py') }}" download class="btn-block" style="display: block; text-align: center;">Download CLI Script</a>
+                    <a href="{{ url_for('static', filename='run.bat') }}" download class="btn-block" style="display: block; text-align: center;">Download run.bat</a>
                 </div>
 
             </div>
