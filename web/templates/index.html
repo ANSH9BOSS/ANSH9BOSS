@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <canvas id="particles-bg"></canvas>
 
     <header>
         <div class="logo-container">
@@ -517,12 +518,24 @@
                             if (currentPhaseIdx < phases.length) {
                                 const logLine = document.createElement('div');
                                 logLine.style.marginBottom = '0.4rem';
-                                logLine.innerHTML = phases[currentPhaseIdx];
                                 stepsDiv.appendChild(logLine);
                                 stepsDiv.scrollTop = stepsDiv.scrollHeight;
                                 
-                                currentPhaseIdx++;
-                                setTimeout(printNextPhase, 400); // 400ms delay per phase step
+                                const textToType = phases[currentPhaseIdx];
+                                let charIdx = 0;
+                                
+                                function typeChar() {
+                                    if (charIdx < textToType.length) {
+                                        logLine.innerHTML = textToType.substring(0, charIdx + 1) + '<span class="typewriter-cursor"></span>';
+                                        charIdx++;
+                                        setTimeout(typeChar, 10);
+                                    } else {
+                                        logLine.innerHTML = textToType;
+                                        currentPhaseIdx++;
+                                        setTimeout(printNextPhase, 200);
+                                    }
+                                }
+                                typeChar();
                             } else {
                                 setTimeout(() => {
                                     stepsDiv.style.display = 'none';
@@ -541,6 +554,51 @@
                     stepsDiv.innerHTML = `<div style="color: var(--danger);">[Error] Connection failure: ${err.message}</div>`;
                 });
         }
+        }
+
+        // Particle Background System
+        const canvas = document.getElementById('particles-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        for (let i = 0; i < 70; i++) particles.push(new Particle());
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
     </script>
 </body>
 </html>

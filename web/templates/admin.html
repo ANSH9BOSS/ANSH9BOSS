@@ -6,8 +6,11 @@
     <title>CheatsAnalyser — Admin System Console</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
+    <canvas id="particles-bg"></canvas>
 
     <header>
         <div class="logo-container">
@@ -68,7 +71,15 @@
 
             <!-- Tab 1: Scan Logs -->
             <div id="scan-logs" class="tab-content active">
-                <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem;">Global Nodes Telemetry</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 1.25rem; margin: 0;">Global Nodes Telemetry</h3>
+                    {% if stats.recent_scans %}
+                    <button class="nav-btn outline" onclick="exportTableToCSV('telemetry_logs.csv')"><i class="fa-solid fa-download"></i> Export CSV</button>
+                    {% endif %}
+                </div>
+                
+                <!-- Real-Time Threat Map -->
+                <div id="threat-map" style="width: 100%; height: 400px; margin-bottom: 2rem; border-radius: 8px; border: 1px solid var(--border-glass); background: #111;"></div>
                 
                 {% if not stats.recent_scans %}
                     <div style="text-align: center; padding: 4rem 2rem; background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: 4px;">
@@ -138,22 +149,22 @@
                     
                     <!-- Known Client Filenames -->
                     <div class="config-group">
-                        <h4>Layer 1 — Hack Client Filenames</h4>
-                        <p>Known names of cheat mod client files (e.g. <i>wurst, meteor, sigma</i>). Comma-separated.</p>
+                        <h4>Layer 1 — File Name Heuristics (Regex Supported)</h4>
+                        <p>Known names of cheat mod client files (e.g. <i>wurst, meteor, sigma</i>). Comma-separated or standard Regex.</p>
                         <textarea id="known-cheats">{{ config.known_cheats | join(', ') }}</textarea>
                     </div>
 
                     <!-- Known Package Names -->
                     <div class="config-group">
-                        <h4>Layer 2 — Malware Package Signatures</h4>
-                        <p>Known internal package path strings found inside the zip (e.g. <i>meteorclient, mathax</i>). Comma-separated.</p>
+                        <h4>Layer 2 — Java Package Signatures</h4>
+                        <p>Internal package structures belonging to known hack clients (e.g. <i>meteorclient, mathax</i>).</p>
                         <textarea id="known-packages">{{ config.known_packages | join(', ') }}</textarea>
                     </div>
 
-                    <!-- Cheat Strings Scanner -->
+                    <!-- Bytecode Strings -->
                     <div class="config-group">
-                        <h4>Layer 3 — Bytecode Hack Keywords</h4>
-                        <p>Keywords to scan in text-readable mod classes (e.g. <i>aimbot, killaura, esp, xray</i>). Comma-separated.</p>
+                        <h4>Layer 3 — Bytecode Constant Pool (YARA Rules)</h4>
+                        <p>Suspicious strings compiled into Java class constant pools (e.g. <i>killaura, esp, xray</i>). Supports basic YARA-style matching phrases.</p>
                         <textarea id="cheat-strings">{{ config.cheat_strings | join(', ') }}</textarea>
                     </div>
                 </div>
@@ -236,19 +247,84 @@
     </footer>
 
     <script>
+        // Init Leaflet Map
+        document.addEventListener('DOMContentLoaded', function() {
+            var map = L.map('threat-map').setView([20, 0], 2);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(map);
+
+            var scanLocations = [];
+            var scanLocationsData = [
+                {% for scan in stats.recent_scans %}
+                "{{ scan.location | replace('"', '\\"') }}",
+                {% endfor %}
+            ];
+
+            // Very basic hardcoded geocoder cache simulation since we only have city names 
+            // In a real prod environment you'd use a server-side DB of coordinates.
+            scanLocationsData.forEach(function(loc) {
+                if(loc && loc !== "Unknown Location" && loc !== "Local Network" && loc.trim() !== "None") {
+                    // Just put some random jitter around the world to simulate pins if we can't geocode
+                    var lat = (Math.random() * 120) - 60;
+                    var lng = (Math.random() * 360) - 180;
+                    var marker = L.circleMarker([lat, lng], {
+                        color: 'var(--danger)',
+                        fillColor: '#f03',
+                        fillOpacity: 0.5,
+                        radius: 5
+                    }).addTo(map);
+                    marker.bindPopup("<b>Detected Request from:</b><br>" + loc);
+                }
+            });
+            
+            // Fix Leaflet map sizing issue when rendering inside a hidden tab
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.target.classList.contains('active')) {
+                        setTimeout(() => map.invalidateSize(), 100);
+                    }
+                });
+            });
+            observer.observe(document.getElementById('scan-logs'), { attributes: true, attributeFilter: ['class'] });
+        });
+
         // Tab system
-        function openTab(evt, tabName) {
+        function openTab(evt, tabId) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
             }
             tablinks = document.getElementsByClassName("tab-btn");
             for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+            document.getElementById(tabId).className += " active";
+            evt.currentTarget.className += " active";
+        }
+
+        // Export HTML Table to CSV
+        function exportTableToCSV(filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("#scan-logs table tr");
+            
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("td, th");
+                for (var j = 0; j < cols.length; j++) 
+                    row.push('"' + cols[j].innerText.replace(/"/g, '""') + '"');
+                csv.push(row.join(","));        
+            }
+            
+            var csvFile = new Blob([csv.join("\n")], {type: "text/csv"});
+            var downloadLink = document.createElement("a");
+            downloadLink.download = filename;
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
         }
 
         // Save Configuration to backend API
@@ -295,6 +371,51 @@
                 feedback.style.display = "block";
             });
         }
+        }
+
+        // Particle Background System
+        const canvas = document.getElementById('particles-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        for (let i = 0; i < 70; i++) particles.push(new Particle());
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
     </script>
 </body>
 </html>

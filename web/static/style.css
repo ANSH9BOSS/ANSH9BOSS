@@ -255,11 +255,18 @@ header {
 
 /* Telemetry Tracker Feed */
 .telemetry-card {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(9, 9, 11, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-glass);
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transition: var(--transition);
+}
+.telemetry-card:hover {
+    border-color: var(--border-glass-glow);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
 }
 
 #ticker-feed {
@@ -279,18 +286,20 @@ header {
 }
 
 .card {
-    background: var(--card-bg);
+    background: rgba(9, 9, 11, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-glass);
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 2.5rem 2rem;
     transition: var(--transition);
     position: relative;
 }
 
 .card:hover {
-    border-color: var(--border-glass-glow);
-    box-shadow: var(--glow-shadow);
-    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+    transform: translateY(-4px);
 }
 
 .card h3 {
@@ -364,16 +373,20 @@ header {
 }
 
 .step-card {
-    background: var(--bg-secondary);
+    background: rgba(9, 9, 11, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-glass);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 2rem 1.5rem;
     text-align: center;
     transition: var(--transition);
 }
 
 .step-card:hover {
-    border-color: var(--border-glass-glow);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
 }
 
 .step-num {
@@ -815,4 +828,31 @@ tr:hover td {
 
 .pulse-glow {
     animation: pulse-glow 3s ease-in-out infinite;
+}
+
+#particles-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Typewriter blinking cursor */
+.typewriter-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background-color: var(--accent);
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink-caret 0.8s step-end infinite;
+}
+
+@keyframes blink-caret {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
