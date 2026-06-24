@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANSH9BOSS APK Build Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.jpg') }}" alt="ANSH9BOSS Logo" class="logo-img">
+            <a href="/" class="logo-text">ANSH9BOSS</a>
+        </div>
+        <nav class="nav-links">
+            <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+        </nav>
+    </header>
+
+    <div class="login-wrapper">
+        <div class="login-card" style="max-width: 600px;">
+            <i class="fa-solid fa-screwdriver-wrench" style="font-size: 3rem; color: var(--warning); margin-bottom: 1.5rem; animation: pulse 2s infinite;"></i>
+            <h2 style="color: var(--warning);">APK Compile Pending</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95dp; line-height: 1.6;">
+                The native Android application has not been compiled and hosted on this server yet. 
+            </p>
+
+            <div style="text-align: left; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-glass); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <h3 style="color: var(--cyan); font-size: 1.1rem; margin-bottom: 0.75rem;"><i class="fa-solid fa-circle-info"></i> Instructions for Server Owner:</h3>
+                <ol style="margin-left: 1.2rem; font-size: 0.85rem; color: var(--text-muted); display: grid; gap: 0.75rem;">
+                    <li>Clone this repository to your local PC:
+                        <code style="display:block; background:#04060b; padding:0.4rem; border-radius:4px; margin-top:0.25rem; color:var(--aqua);">git clone https://github.com/ANSH9BOSS/ansh9boss.git</code>
+                    </li>
+                    <li>Open the <b><code>android/</code></b> directory inside <b>Android Studio</b>.</li>
+                    <li>Select <b>Build -> Build Bundle(s) / APK(s) -> Build APK(s)</b> from the top menu.</li>
+                    <li>Copy the resulting file <code>app-debug.apk</code> and rename it to <code>ansh9boss.apk</code>.</li>
+                    <li>Place it in your repository under <b><code>web/static/ansh9boss.apk</code></b>.</li>
+                    <li>Commit and push the file to GitHub. Vercel will automatically redeploy the site and activate the download button!</li>
+                </ol>
+            </div>
+            
+            <a href="/" class="btn-block" style="display: block; text-align: center;">Back to Homepage</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ANSH9BOSS. Dashboard and systems compiled locally.</p>
+    </footer>
+
+</body>
+</html>

@@ -111,6 +111,13 @@ def get_stats():
         
     return stats
 
+@app.route("/static/ansh9boss.apk")
+def download_apk():
+    apk_path = BASE_DIR / "web" / "static" / "ansh9boss.apk"
+    if not apk_path.exists():
+        return render_template("apk_placeholder.html")
+    return app.send_static_file("ansh9boss.apk")
+
 @app.route("/")
 def index():
     config = load_config()
