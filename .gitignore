@@ -1,0 +1,19 @@
+# Python local files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+
+# Local database files
+data/*.db
+data/ansh9boss.db
+data/ansh9boss_global.db
+
+# Test folder files
+test_mods/
+
+# OS specific files
+.DS_Store
+Thumbs.db

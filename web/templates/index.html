@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANSH9BOSS — Minecraft Mod Analyzer & Anti-Cheat Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.jpg') }}" alt="ANSH9BOSS Logo" class="logo-img">
+            <span class="logo-text">ANSH9BOSS</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#how-it-works">How It Works</a>
+            <a href="#downloads">Downloads</a>
+            <a href="#changelog">Changelog</a>
+            <a href="/admin" class="nav-btn outline">Admin Panel</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Defend Your Minecraft client with <span>ANSH9BOSS</span></h1>
+            <p>A cross-platform cheat & malicious mod detector built to secure Termux (Android) and Windows environments. Scan local JAR files against known hack clients, manifests, and signatures.</p>
+            <div class="hero-actions">
+                <a href="#downloads" class="nav-btn primary">Get Started Now</a>
+                <a href="#how-it-works" class="nav-btn outline">Learn More</a>
+            </div>
+        </section>
+
+        <!-- Live Realtime Telemetry Feed -->
+        <section id="telemetry" style="margin-bottom: 5rem;">
+            <h2 class="section-title">Global Live Threat Tracker</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-top: -2rem; margin-bottom: 3rem;">Real-time feed showing active mod analysis scans from Minecraft clients worldwide.</p>
+            
+            <div class="admin-grid" style="margin-bottom: 2rem;">
+                <div class="stat-card">
+                    <span class="stat-value" id="global-scans">0</span>
+                    <span class="stat-label">Global Scans Completed</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="global-files" style="color: var(--aqua);">0</span>
+                    <span class="stat-label">Total Files Analyzed</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="global-flagged" style="color: var(--danger);">0</span>
+                    <span class="stat-label">Threats Detected</span>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 1.5rem; background: rgba(7, 10, 18, 0.7); border-color: rgba(0, 242, 254, 0.15);">
+                <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--cyan); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-satellite-dish" style="animation: pulse 2s infinite;"></i> LIVE ACTIVITY TELEMETRY FEED
+                </h3>
+                <div id="ticker-feed" style="max-height: 250px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem; padding-right: 0.5rem;">
+                    <div style="color: var(--text-muted); text-align: center; padding: 2rem 0;">Connecting to telemetry stream...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Downloads / Install Section -->
+        <section id="downloads" style="margin-top: 2rem;">
+            <h2 class="section-title">Get ANSH9BOSS</h2>
+            <div class="downloads-grid">
+                
+                <!-- Android Termux Card -->
+                <div class="card">
+                    <h3><i class="fa-brands fa-android"></i> Android (Termux)</h3>
+                    <p>Ideal for mobile PojavLauncher players who want to scan their launcher mods folder directly on their Android devices.</p>
+                    
+                    <div style="text-align: left; font-size: 0.9rem; margin-bottom: 1.5rem;">
+                        <ol style="margin-left: 1.2rem; display: grid; gap: 0.5rem; color: var(--text-muted);">
+                            <li>Open Termux and run update/install command:</li>
+                            <div class="code-box">
+                                <span>pkg update && pkg install python -y</span>
+                                <button class="copy-btn" onclick="copyText('pkg update && pkg install python -y')"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                            <li>Install required UI and graphics engines:</li>
+                            <div class="code-box">
+                                <span>pip install rich pyfiglet</span>
+                                <button class="copy-btn" onclick="copyText('pip install rich pyfiglet')"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                            <li>Download the analyzer and execute the scan:</li>
+                            <div class="code-box">
+                                <span>python ansh9boss.py</span>
+                                <button class="copy-btn" onclick="copyText('python ansh9boss.py')"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </ol>
+                    </div>
+                    <a href="{{ url_for('static', filename='ansh9boss.py') }}" download class="btn-block" style="display: block; text-align: center;">Download CLI Script</a>
+                </div>
+
+                <!-- Windows CMD Card -->
+                <div class="card">
+                    <h3><i class="fa-brands fa-windows"></i> Windows CMD</h3>
+                    <p>Search standard locations (CurseForge, PrismLauncher, GDLauncher, ATLauncher, MultiMC, Vanilla Minecraft) automatically.</p>
+                    
+                    <div style="text-align: left; font-size: 0.9rem; margin-bottom: 1.5rem;">
+                        <ol style="margin-left: 1.2rem; display: grid; gap: 0.5rem; color: var(--text-muted);">
+                            <li>Install Python 3.10+ from python.org (Ensure "Add to PATH" is checked).</li>
+                            <li>Open Windows Command Prompt (CMD).</li>
+                            <li>Install Python dependencies:</li>
+                            <div class="code-box">
+                                <span>pip install rich pyfiglet</span>
+                                <button class="copy-btn" onclick="copyText('pip install rich pyfiglet')"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                            <li>Run the script from your downloads folder:</li>
+                            <div class="code-box">
+                                <span>python ansh9boss.py</span>
+                                <button class="copy-btn" onclick="copyText('python ansh9boss.py')"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </ol>
+                    </div>
+                    <a href="{{ url_for('static', filename='ansh9boss.py') }}" download class="btn-block" style="display: block; text-align: center;">Download CLI Script</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works">
+            <h2 class="section-title">3-Layer Scanning Engine</h2>
+            <div class="steps-timeline">
+                
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>Filename Scanner</h4>
+                    <p>Scans the <code>.jar</code> file names against a hardcoded list of known cheat client signatures (Wurst, Meteor, Sigma, Vape, Impact, Aristois, Wolfram, and more) using fast, case-insensitive string parsing.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Manifest & Package Check</h4>
+                    <p>Inspects the package directories and reads manifest files inside the archive (e.g. <code>MANIFEST.MF</code>, <code>fabric.mod.json</code>, <code>mods.toml</code>) to verify identifier packages and author tags.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Bytecode String Scan</h4>
+                    <p>Scans binary <code>.class</code> files and textual configuration files inside the mod for signature cheat strings (e.g. <i>aimbot, killaura, freecam, scaffold, wallhack, fastplace, fly, bhop</i>).</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Changelog Section -->
+        <section id="changelog" class="changelog-section">
+            <h2 class="section-title">Changelog</h2>
+            
+            <div class="changelog-item">
+                <div class="changelog-header">
+                    <span class="changelog-version">v1.0.0 (Release)</span>
+                    <span class="changelog-date">June 24, 2026</span>
+                </div>
+                <ul class="changelog-list">
+                    <li>Launched cross-platform Minecraft Mod Analyzer engine.</li>
+                    <li>Added 3-Layer Scan: Filenames, Manifest/Package, and Bytecode String keywords.</li>
+                    <li>Built Android (Termux) and Windows CMD detection routines.</li>
+                    <li>Implemented SQLite integration to report logs locally to companion website dashboard.</li>
+                    <li>Developed customizable admin panel config management.</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ANSH9BOSS. All scans are executed locally on the user device. No user tracking, IP collection, or analytics are stored.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem; color: rgba(255, 71, 126, 0.6);"><i class="fa-solid fa-shield-halved"></i> Defensive security utility only.</p>
+    </footer>
+
+    <script>
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied command to clipboard: " + text);
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        }
+
+        // Live telemetry updates
+        function updateLiveFeed() {
+            fetch('/api/live_feed')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById("global-scans").innerText = data.stats.total_scans;
+                        document.getElementById("global-files").innerText = data.stats.total_files;
+                        document.getElementById("global-flagged").innerText = data.stats.total_flagged;
+                        
+                        const ticker = document.getElementById("ticker-feed");
+                        if (data.recent.length === 0) {
+                            ticker.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 2rem 0;">No telemetry reports logged yet. Run scans to start stream.</div>';
+                            return;
+                        }
+                        
+                        let html = "";
+                        data.recent.forEach(r => {
+                            let badgeClass = "success";
+                            let badgeIcon = "🟢";
+                            if (r.risk_level === "DANGEROUS") {
+                                badgeClass = "danger";
+                                badgeIcon = "🔴";
+                            } else if (r.risk_level === "SUSPICIOUS") {
+                                badgeClass = "warning";
+                                badgeIcon = "🟡";
+                            }
+                            
+                            // Format timestamp nicely
+                            let timeStr = r.timestamp;
+                            try {
+                                const parts = r.timestamp.split(" ");
+                                timeStr = parts.length > 1 ? parts[1] : r.timestamp;
+                            } catch(e) {}
+                            
+                            html += `
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                                    <div>
+                                        <span style="color: var(--text-muted); font-size: 0.8rem;">[${timeStr}]</span>
+                                        <span style="color: var(--cyan); font-weight: bold; margin-left: 0.25rem;">[${r.platform.toUpperCase()}]</span>
+                                        <span style="color: var(--text-main); font-weight: 600; margin-left: 0.5rem;">${r.file_name}</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <span style="font-size: 0.75rem; color: var(--text-muted);">${r.detection_layer}</span>
+                                        <span class="badge ${badgeClass}" style="padding: 0.1rem 0.4rem; font-size: 0.7rem;">${badgeIcon} ${r.risk_level}</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        ticker.innerHTML = html;
+                    }
+                })
+                .catch(err => console.error("Error updating live feed:", err));
+        }
+        
+        updateLiveFeed();
+        setInterval(updateLiveFeed, 5000);
+    </script>
+</body>
+</html>

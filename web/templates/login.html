@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANSH9BOSS Admin Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.jpg') }}" alt="ANSH9BOSS Logo" class="logo-img">
+            <a href="/" class="logo-text">ANSH9BOSS</a>
+        </div>
+        <nav class="nav-links">
+            <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+        </nav>
+    </header>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <h2>Admin Login</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Enter your secure passcode to access configuration files and local scan logs.
+            </p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert error">
+                            <i class="fa-solid fa-triangle-exclamation"></i> {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('login') }}" method="POST">
+                <div class="form-group">
+                    <label for="passcode">System Passcode</label>
+                    <input type="password" id="passcode" name="passcode" class="form-control" placeholder="••••••••" required autofocus>
+                </div>
+                <button type="submit" class="btn-block">Access Console</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ANSH9BOSS. All stats are hosted and managed locally.</p>
+    </footer>
+
+</body>
+</html>
