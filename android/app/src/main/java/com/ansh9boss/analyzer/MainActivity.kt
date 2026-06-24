@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         progressBar.isIndeterminate = true
         tvConsole.text = ""
         tvCurrentFileName.text = "INITIALIZING SCANNER..."
-        logToConsole("Initializing ANSH9BOSS Android Engine v${Config.VERSION}...")
+        logToConsole("Initializing CheatsAnalyser Engine by ANSH9BOSS v${Config.VERSION}...")
         logToConsole("Platform: ANDROID (Scoped Storage SAF Bypass)")
         logToConsole("Scanning folder hierarchy, please wait...\n")
 
