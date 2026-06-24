@@ -69,22 +69,28 @@
             <h2 class="section-title">Get ANSH9BOSS</h2>
             <div class="downloads-grid">
                 
-                <!-- Android Termux Card -->
+                <!-- Android Solutions Card -->
                 <div class="card">
-                    <h3><i class="fa-brands fa-android"></i> Android (Termux)</h3>
-                    <p>Ideal for mobile PojavLauncher players who want to scan their launcher mods folder directly on their Android devices.</p>
+                    <h3><i class="fa-brands fa-android"></i> Android Solutions</h3>
+                    <p>Audit PojavLauncher directly on your mobile device. Choose between the native app or the CLI wrapper.</p>
                     
-                    <div style="text-align: left; font-size: 0.9rem; margin-bottom: 1.5rem;">
-                        <ol style="margin-left: 1.2rem; display: grid; gap: 0.5rem; color: var(--text-muted);">
-                            <li>Open Termux and run the installer + scanner script directly:</li>
-                            <div class="code-box">
-                                <span>curl -sSL -o run.sh https://raw.githubusercontent.com/ANSH9BOSS/ansh9boss/main/run.sh && bash run.sh</span>
-                                <button class="copy-btn" onclick="copyText('curl -sSL -o run.sh https://raw.githubusercontent.com/ANSH9BOSS/ansh9boss/main/run.sh && bash run.sh')"><i class="fa-regular fa-copy"></i></button>
-                            </div>
-                            <li>If prompted, type or paste your custom mods path. It will automatically check for dependency updates and launch!</li>
-                        </ol>
+                    <!-- Native App Option -->
+                    <div style="background: rgba(0, 242, 254, 0.03); border: 1px solid rgba(0, 242, 254, 0.1); padding: 1.2rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: left;">
+                        <h4 style="color: var(--cyan); font-size: 0.95rem; margin-bottom: 0.4rem;"><i class="fa-solid fa-mobile-screen-button"></i> Method 1: Native App (Bypasses Scoped Storage)</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.4;">Runs natively using Android's Storage Access Framework (SAF) to browse and scan PojavLauncher directories securely.</p>
+                        <a href="{{ url_for('static', filename='ansh9boss.apk') }}" download class="btn-block" style="display: block; text-align: center; font-size: 0.9rem; padding: 0.6rem;">Download Android App (.apk)</a>
                     </div>
-                    <a href="{{ url_for('static', filename='run.sh') }}" download class="btn-block" style="display: block; text-align: center;">Download run.sh</a>
+                    
+                    <!-- Termux Option -->
+                    <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 1.2rem; border-radius: 8px; text-align: left;">
+                        <h4 style="color: var(--text-main); font-size: 0.95rem; margin-bottom: 0.4rem;"><i class="fa-solid fa-terminal"></i> Method 2: Termux Command-Line Interface</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.8rem; line-height: 1.4;">Terminal scanner wrapper. Copy this command and run it inside your Termux terminal app:</p>
+                        <div class="code-box" style="margin-bottom: 1rem; padding: 0.5rem 0.75rem; font-size: 0.75rem;">
+                            <span>curl -sSL -o run.sh https://raw.githubusercontent.com/ANSH9BOSS/ansh9boss/main/run.sh && bash run.sh</span>
+                            <button class="copy-btn" onclick="copyText('curl -sSL -o run.sh https://raw.githubusercontent.com/ANSH9BOSS/ansh9boss/main/run.sh && bash run.sh')"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <a href="{{ url_for('static', filename='run.sh') }}" download class="btn-block outline" style="display: block; text-align: center; font-size: 0.85rem; padding: 0.4rem;">Download run.sh</a>
+                    </div>
                 </div>
 
                 <!-- Windows CMD Card -->
