@@ -219,12 +219,13 @@ def get_stats():
         
     return stats
 
-@app.route("/static/ansh9boss.apk")
+@app.route("/download/ansh9boss.apk")
 def download_apk():
     apk_path = BASE_DIR / "web" / "static" / "ansh9boss.apk"
     if not apk_path.exists():
         return render_template("apk_placeholder.html")
-    return app.send_static_file("ansh9boss.apk")
+    from flask import send_from_directory
+    return send_from_directory(os.path.join(app.root_path, '../web/static'), 'ansh9boss.apk', as_attachment=True)
 
 @app.route("/")
 def index():
