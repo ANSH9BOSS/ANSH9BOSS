@@ -7,6 +7,9 @@ import zipfile
 import sqlite3
 from pathlib import Path
 from datetime import datetime
+import socket
+import urllib.request
+import urllib.error
 
 # Import rich components
 try:
@@ -157,8 +160,15 @@ def report_scan_telemetry(total_files, flagged_files, highest_risk, detections):
     is_android = os.path.exists('/system') or 'ANDROID_ROOT' in os.environ or 'com.termux' in os.environ.get('PREFIX', '')
     platform = "Windows" if is_windows else ("Android (Termux)" if is_android else "Linux/macOS")
     
+    device_name = "Unknown Device"
+    try:
+        device_name = socket.gethostname()
+    except Exception:
+        pass
+    
     payload = {
         "platform": platform,
+        "device_name": device_name,
         "total_files": total_files,
         "flagged_files": flagged_files,
         "highest_risk": highest_risk,

@@ -272,6 +272,7 @@ class MainActivity : AppCompatActivity() {
             // Construct JSON Payload
             val payload = JSONObject().apply {
                 put("platform", "Android App (Kotlin)")
+                put("device_name", android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL)
                 put("total_files", totalFiles)
                 put("flagged_files", flaggedFiles)
                 put("highest_risk", highestRisk)

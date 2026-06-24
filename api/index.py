@@ -464,6 +464,67 @@ def decompile_class_endpoint():
         return jsonify(decomp_result)
     except Exception as e:
         return jsonify({"success": False, "error": f"Disassembly server error: {str(e)}"}), 500
+def get_ip_and_location(req_headers, remote_addr):
+    # Determine IP Address
+    ip_address = req_headers.get("x-forwarded-for")
+    if ip_address:
+        ip_address = ip_address.split(',')[0].strip()
+    else:
+        ip_address = remote_addr or "127.0.0.1"
+        
+    # Determine Location
+    location = None
+    # Try Vercel geo-location headers
+    city = req_headers.get("x-vercel-ip-city")
+    country = req_headers.get("x-vercel-ip-country")
+    if city and country:
+        location = f"{city}, {country}"
+    elif country:
+        location = country
+    elif city:
+        location = city
+        
+    if not location:
+        is_local = False
+        if ip_address in ("127.0.0.1", "localhost", "::1"):
+            is_local = True
+        else:
+            parts = ip_address.split('.')
+            if len(parts) == 4:
+                try:
+                    p0 = int(parts[0])
+                    p1 = int(parts[1])
+                    if p0 == 10:
+                        is_local = True
+                    elif p0 == 192 and p1 == 168:
+                        is_local = True
+                    elif p0 == 172 and (16 <= p1 <= 31):
+                        is_local = True
+                except ValueError:
+                    pass
+        if is_local:
+            location = "Local Network"
+        else:
+            import urllib.request
+            try:
+                url = f"http://ip-api.com/json/{ip_address}"
+                req = urllib.request.Request(url, headers={'User-Agent': 'ANSH9BOSS-Validator/1.0'})
+                with urllib.request.urlopen(req, timeout=2) as resp:
+                    resp_data = json.loads(resp.read().decode("utf-8"))
+                    if resp_data.get("status") == "success":
+                        city_name = resp_data.get("city", "")
+                        country_name = resp_data.get("country", "")
+                        if city_name and country_name:
+                            location = f"{city_name}, {country_name}"
+                        elif country_name:
+                            location = country_name
+                        else:
+                            location = "Unknown Location"
+                    else:
+                        location = "Unknown Location"
+            except Exception:
+                location = "Unknown Location"
+    return ip_address, location
 
 @app.route("/api/report_scan", methods=["POST"])
 def report_scan():
@@ -477,6 +538,9 @@ def report_scan():
         flagged_files = data.get("flagged_files", 0)
         highest_risk = data.get("highest_risk", "CLEAN")
         detections = data.get("detections", [])
+        device_name = data.get("device_name", "Unknown Device")
+        
+        ip_address, location = get_ip_and_location(request.headers, request.remote_addr)
         
         scans = get_all_scans()
         new_scan_id = len(scans) + 1
@@ -489,7 +553,10 @@ def report_scan():
             "total_files": total_files,
             "flagged_files": flagged_files,
             "highest_risk": highest_risk,
-            "platform": platform
+            "platform": platform,
+            "device_name": device_name,
+            "ip_address": ip_address,
+            "location": location
         }
         scans.append(scan_record)
         save_scans(scans)

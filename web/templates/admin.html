@@ -87,6 +87,9 @@
                                     <th>Scan ID</th>
                                     <th>Timestamp</th>
                                     <th>Platform Node</th>
+                                    <th>Device Name</th>
+                                    <th>IP Address</th>
+                                    <th>Location</th>
                                     <th>Files Audited</th>
                                     <th>Threat Detections</th>
                                     <th>Severity Status</th>
@@ -98,6 +101,9 @@
                                     <td style="font-family: var(--font-mono); color: var(--accent);">#{{ scan.id }}</td>
                                     <td>{{ scan.timestamp }}</td>
                                     <td style="font-weight: 600;">{{ scan.platform }}</td>
+                                    <td>{{ scan.device_name or 'Unknown Device' }}</td>
+                                    <td style="font-family: var(--font-mono); font-size: 0.85rem;">{{ scan.ip_address or 'Unknown IP' }}</td>
+                                    <td>{{ scan.location or 'Unknown Location' }}</td>
                                     <td>{{ scan.total_files }}</td>
                                     <td style="font-weight: 700; color: {% if scan.flagged_files > 0 %}var(--danger){% else %}var(--success){% endif %};">{{ scan.flagged_files }}</td>
                                     <td>
