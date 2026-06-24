@@ -398,6 +398,26 @@ def scan_jar(filepath, config):
                         cheat_str_bytes = cheat_str.encode('utf-8')
                         if cheat_str_bytes in content_bytes:
                             matched_strings.add(cheat_str)
+
+                    # Advanced Check: Layer 4 Payload Analysis
+                    if b"discord.com/api/webhooks" in content_bytes or b"discordapp.com/api/webhooks" in content_bytes:
+                        risk_level = "DANGEROUS"
+                        if "Layer 4 (Webhook Stealer)" not in layers_triggered:
+                            layers_triggered.append("Layer 4 (Webhook Stealer)")
+                        match_details.append(f"Malicious Discord Webhook Stealer pattern found in: {entry}")
+
+                    if b"runtime.getruntime().exec" in content_bytes or b"processbuilder" in content_bytes:
+                        if risk_level != "DANGEROUS":
+                            risk_level = "SUSPICIOUS"
+                        if "Layer 4 (Execution Hijack)" not in layers_triggered:
+                            layers_triggered.append("Layer 4 (Execution Hijack)")
+                        match_details.append(f"Suspicious native execution methods found in: {entry}")
+
+                    if b"defineclass" in content_bytes and b"urlclassloader" in content_bytes:
+                        risk_level = "DANGEROUS"
+                        if "Layer 4 (Reflective Loader)" not in layers_triggered:
+                            layers_triggered.append("Layer 4 (Reflective Loader)")
+                        match_details.append(f"Suspicious reflective ClassLoader injection found in: {entry}")
                 except Exception:
                     pass
                     

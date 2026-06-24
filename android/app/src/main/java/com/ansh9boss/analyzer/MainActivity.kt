@@ -17,6 +17,11 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.Executors
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
+import android.view.animation.ScaleAnimation
+import android.widget.ImageView
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var tvConsole: TextView
     private lateinit var scrollView: ScrollView
+    private lateinit var ivScannerLogo: ImageView
+    private lateinit var viewGlowRing: View
 
     private var selectedFolderUri: Uri? = null
     private val executor = Executors.newSingleThreadExecutor()
@@ -42,6 +49,10 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         tvConsole = findViewById(R.id.tvConsole)
         scrollView = findViewById(R.id.scrollView)
+        ivScannerLogo = findViewById(R.id.ivScannerLogo)
+        viewGlowRing = findViewById(R.id.viewGlowRing)
+
+        startIdleGlowAnimation()
 
         btnSelectFolder.setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
@@ -85,6 +96,8 @@ class MainActivity : AppCompatActivity() {
         logToConsole("Initializing ANSH9BOSS Android Engine v${Config.VERSION}...")
         logToConsole("Platform: ANDROID (Scoped Storage SAF Bypass)")
         logToConsole("Scanning folder hierarchy, please wait...\n")
+
+        startScanGlowAnimation()
 
         executor.execute {
             try {
@@ -158,6 +171,9 @@ class MainActivity : AppCompatActivity() {
                 // Report stats to global Vercel server
                 val reported = reportScanToServer(totalJars, totalFlagged, highestRisk, detections)
                 runOnUiThread {
+                    ivScannerLogo.clearAnimation()
+                    startIdleGlowAnimation()
+
                     if (reported) {
                         logToConsole("✓ Telemetry successfully reported globally to https://ansh9boss.vercel.app")
                     } else {
@@ -171,6 +187,9 @@ class MainActivity : AppCompatActivity() {
 
             } catch (e: Exception) {
                 runOnUiThread {
+                    ivScannerLogo.clearAnimation()
+                    startIdleGlowAnimation()
+
                     logToConsole("Error during scan task execution: ${e.message}")
                     btnStartScan.isEnabled = true
                     btnSelectFolder.isEnabled = true
@@ -239,5 +258,44 @@ class MainActivity : AppCompatActivity() {
         scrollView.post {
             scrollView.fullScroll(View.FOCUS_DOWN)
         }
+    }
+
+    private fun startIdleGlowAnimation() {
+        val pulseAnim = ScaleAnimation(
+            0.95f, 1.05f, 0.95f, 1.05f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        ).apply {
+            duration = 1800
+            repeatMode = Animation.REVERSE
+            repeatCount = Animation.INFINITE
+            interpolator = LinearInterpolator()
+        }
+        viewGlowRing.startAnimation(pulseAnim)
+    }
+
+    private fun startScanGlowAnimation() {
+        val rotateAnim = RotateAnimation(
+            0f, 360f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        ).apply {
+            duration = 2000
+            repeatCount = Animation.INFINITE
+            interpolator = LinearInterpolator()
+        }
+        ivScannerLogo.startAnimation(rotateAnim)
+
+        val fastPulse = ScaleAnimation(
+            0.9f, 1.1f, 0.9f, 1.1f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        ).apply {
+            duration = 800
+            repeatMode = Animation.REVERSE
+            repeatCount = Animation.INFINITE
+            interpolator = LinearInterpolator()
+        }
+        viewGlowRing.startAnimation(fastPulse)
     }
 }

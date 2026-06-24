@@ -106,6 +106,33 @@ class ModAnalyzer(private val context: Context) {
                                     matchedStrings.add(cheatStr)
                                 }
                             }
+
+                            // Layer 4: Advanced Payload Analysis
+                            if (contentString.contains("discord.com/api/webhooks") || contentString.contains("discordapp.com/api/webhooks")) {
+                                riskLevel = "DANGEROUS"
+                                if (!layers.contains("Layer 4 (Webhook Stealer)")) {
+                                    layers.add("Layer 4 (Webhook Stealer)")
+                                }
+                                details.add("Malicious Discord Webhook Stealer pattern found in: $entryName")
+                            }
+
+                            if (contentString.contains("runtime.getruntime().exec") || contentString.contains("processbuilder")) {
+                                if (riskLevel != "DANGEROUS") {
+                                    riskLevel = "SUSPICIOUS"
+                                }
+                                if (!layers.contains("Layer 4 (Execution Hijack)")) {
+                                    layers.add("Layer 4 (Execution Hijack)")
+                                }
+                                details.add("Suspicious native execution execution methods found in: $entryName")
+                            }
+
+                            if (contentString.contains("defineclass") && contentString.contains("urlclassloader")) {
+                                riskLevel = "DANGEROUS"
+                                if (!layers.contains("Layer 4 (Reflective Loader)")) {
+                                    layers.add("Layer 4 (Reflective Loader)")
+                                }
+                                details.add("Suspicious reflective ClassLoader injection found in: $entryName")
+                            }
                         } catch (e: Exception) {
                             // Suppress entry read exceptions
                         }
