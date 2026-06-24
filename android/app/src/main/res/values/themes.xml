@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.ANSH9BOSS" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#00F2FE</item>
+        <item name="colorPrimaryVariant">#00EBD8</item>
+        <item name="colorOnPrimary">#070A12</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#teal_200</item>
+        <item name="colorSecondaryVariant">#teal_700</item>
+        <item name="colorOnSecondary">#black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#070A12</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
