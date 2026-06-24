@@ -27,7 +27,7 @@
         android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Minecraft Mod Analyzer & Anti-Cheat Scan"
+        android:text="Minecraft Mod Analyzer &amp; Anti-Cheat Scan"
         android:textColor="#8A9FC2"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"

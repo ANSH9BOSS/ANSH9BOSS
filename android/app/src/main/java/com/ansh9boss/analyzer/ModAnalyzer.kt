@@ -170,7 +170,7 @@ class ModAnalyzer(private val context: Context) {
     private fun readEntryText(zip: ZipInputStream): String {
         val bos = ByteArrayOutputStream()
         val buffer = ByteArray(1024)
-        var len: Int
+        var len = 0
         // Limit max bytes read per entry to prevent memory exhaustion (e.g. zip bomb defence)
         var totalRead = 0
         val maxReadLimit = 256 * 1024 // 256KB limit per class/text file

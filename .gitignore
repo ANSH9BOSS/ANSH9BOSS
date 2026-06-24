@@ -18,3 +18,10 @@ test_mods/
 .DS_Store
 Thumbs.db
 .vercel
+
+# Android build outputs and caches
+android/.gradle/
+android/app/build/
+android/local.properties
+.gradle/
+build/
