@@ -141,7 +141,7 @@ def save_scan_results(total_files, flagged_files, highest_risk, detections):
 
 def report_scan_telemetry(total_files, flagged_files, highest_risk, detections):
     """Report anonymous scan telemetry to the global web server tracker."""
-    api_url = os.environ.get("ANSH9BOSS_API_URL", "http://localhost:5000")
+    api_url = os.environ.get("ANSH9BOSS_API_URL", "https://ansh9boss.vercel.app")
     report_endpoint = f"{api_url}/api/report_scan"
     
     # Anonymize detections list for global dashboard (hide local user directory filepaths)
