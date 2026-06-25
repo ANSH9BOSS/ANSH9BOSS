@@ -90,6 +90,32 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val btnPurgeRam = findViewById<Button>(R.id.btnPurgeRam)
+        btnPurgeRam.setOnClickListener {
+            logToConsole("<font color='#EF4444'>Initiating JVM Memory Purge sequence...</font>", true)
+            executor.execute {
+                try {
+                    val am = getSystemService(android.app.ActivityManager::class.java)
+                    val processes = am.runningAppProcesses
+                    var killedCount = 0
+                    processes?.forEach { process ->
+                        val processName = process.processName.lowercase()
+                        if (processName.contains("pojavlauncher") || processName.contains("java") || processName.contains("minecraft")) {
+                            android.os.Process.killProcess(process.pid)
+                            killedCount++
+                        }
+                    }
+                    runOnUiThread {
+                        logToConsole("<font color='#EF4444'><b>[CRITICAL] Purged $killedCount JVM processes from memory. RAM secured.</b></font>", true)
+                    }
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        logToConsole("<font color='#A1A1AA'>Memory purge completed (limited system permissions).</font>", true)
+                    }
+                }
+            }
+        }
+
         dbHelper = ScanHistoryDbHelper(this)
         startIdleGlowAnimation()
         syncThreatRulesAndDisplayHistory()

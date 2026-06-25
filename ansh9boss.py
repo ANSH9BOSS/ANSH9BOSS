@@ -5,6 +5,8 @@ import json
 import time
 import zipfile
 import sqlite3
+import argparse
+import csv
 from pathlib import Path
 from datetime import datetime
 import socket
@@ -586,7 +588,37 @@ def audit_running_java_agents():
     else:
         console.print("[green]✓ Active JVM memory audit: No malicious javaagent injections found.[/green]\n")
 
+def export_results(detections, export_format, output_path):
+    """Export scan results to JSON or CSV."""
+    if not detections:
+        console.print("[yellow]No detections to export.[/yellow]")
+        return
+        
+    try:
+        if export_format == "json":
+            with open(output_path, "w", encoding="utf-8") as f:
+                json.dump(detections, f, indent=4)
+            console.print(f"[green]✓ Results successfully exported to JSON: {output_path}[/green]")
+        elif export_format == "csv":
+            with open(output_path, "w", newline="", encoding="utf-8") as f:
+                writer = csv.writer(f)
+                writer.writerow(["File Name", "File Path", "Risk Level", "Detection Layer", "Details"])
+                for det in detections:
+                    details = " | ".join(det["matched_details"]) if isinstance(det["matched_details"], list) else det["matched_details"]
+                    writer.writerow([det["file_name"], det["file_path"], det["risk_level"], det["detection_layer"], details])
+            console.print(f"[green]✓ Results successfully exported to CSV: {output_path}[/green]")
+    except Exception as e:
+        console.print(f"[red]Error exporting results: {e}[/red]")
+
 def main():
+    parser = argparse.ArgumentParser(description="CheatsAnalyser - Advanced Minecraft Mod Threat Scanner")
+    parser.add_argument("path", nargs="?", help="Specific directory or .jar file to scan")
+    parser.add_argument("--export", choices=["json", "csv"], help="Export results to a file")
+    parser.add_argument("--out", default="scan_report", help="Output file name (without extension)")
+    parser.add_argument("--no-telemetry", action="store_true", help="Disable global anonymous telemetry reporting")
+    
+    args = parser.parse_args()
+
     config = load_config()
     init_db()
     
@@ -596,9 +628,9 @@ def main():
     
     display_banner(config.get("version", "1.0.0"))
     
-    # Check if directory argument is provided via command line
-    if len(sys.argv) > 1:
-        cli_path = sys.argv[1]
+    # Check if directory argument is provided
+    if args.path:
+        cli_path = args.path
         console.print(f"[cyan]Scanning folder specified via command line argument: [bold]{cli_path}[/bold][/cyan]")
         selected_folders = [Path(cli_path)]
     else:
@@ -696,12 +728,15 @@ def main():
     save_scan_results(total_scanned, flagged_count, highest_risk, detections)
     
     # Report telemetry to global server
-    with console.status("[cyan]Transmitting anonymous scan telemetry to global tracker...[/cyan]"):
-        reported = report_scan_telemetry(total_scanned, flagged_count, highest_risk, detections)
-        if reported:
-            console.print("[green]✓ Anonymized telemetry successfully reported to global tracker.[/green]")
-        else:
-            console.print("[yellow]! Global tracker offline. Scanning completed offline.[/yellow]")
+    if not args.no_telemetry:
+        with console.status("[cyan]Transmitting anonymous scan telemetry to global tracker...[/cyan]"):
+            reported = report_scan_telemetry(total_scanned, flagged_count, highest_risk, detections)
+            if reported:
+                console.print("[green]✓ Anonymized telemetry successfully reported to global tracker.[/green]")
+            else:
+                console.print("[yellow]! Global tracker offline. Scanning completed offline.[/yellow]")
+    else:
+        console.print("[yellow]! Telemetry transmission disabled via command line flag.[/yellow]")
     
     # Output Scan Results Table
     console.print("\n[bold cyan]Analysis Results[/bold cyan]")
@@ -769,6 +804,12 @@ def main():
         summary_panel += "[bold green]🟢 CLEAN[/bold green]"
         
     console.print(Panel(summary_panel, title="Scan Summary", border_style="cyan", box=box.ROUNDED))
+    
+    # Export if requested
+    if args.export:
+        output_file = f"{args.out}.{args.export}"
+        export_results(detections, args.export, output_file)
+        
     console.print()
 
 if __name__ == "__main__":
