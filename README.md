@@ -5,16 +5,36 @@
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Caveat&weight=600&size=26&pause=1000&color=a371f7&center=true&vCenter=true&width=700&height=44&lines=Overall%20Developer%20%7C%20Building%20cool%20things%20%3A%29;Minecraft%20Mods%2C%20Plugins%20%26%20Resourcepacks;Game%20Security%20%26%20Anti-Cheat%20Developer;Virtualization%20%26%20Systems%20Engineering" alt="Typing headlines" />
+  <img src="https://readme-typing-svg.demolab.com?font=Caveat&weight=600&size=26&pause=1000&color=a371f7&center=true&vCenter=true&width=700&height=44&lines=Overall%20Developer%20%7C%20Building%20cool%20things%20%3A%29;Minecraft%20Mods%2C%20Plugins%20%26%20Resource%20Packs;Game%20Security%20%26%20Anti-Cheat%20Developer;Virtualization%20%26%20Systems%20Engineering" alt="Typing headlines" />
 </p>
 
 ### 🚀 About Me
+
+✨ **I'm a Magician with Unbelievable Skills**
 
 I am a full-stack Overall Developer specializing in low-level game security engineering, container virtualization infrastructure, and custom AI tools. I also build Minecraft mods, plugins, resource packs, and custom automation solutions.
 
 🔭 &nbsp;I'm currently working on **Stitch Analyzer, Quorox Cloud, and Skript Builder AI**  
 💬 &nbsp;Ask me about **Minecraft modifications, anti-cheats, virtualization, or custom bots**  
 ⚡ &nbsp;Fun fact: **I design and deploy custom bots and high-availability servers**
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ANSH9BOSS/ANSH9BOSS/main/divider.svg" alt="divider" width="100%" />
+</p>
+
+### 🔗 Deployments & Projects
+
+<p align="center">
+  <a href="https://ansh9boss2.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/Personal_Portfolio-ansh9boss2.vercel.app-A371F7?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" />
+  </a>
+  <a href="https://ansh9boss.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/Cheats_Analyzer-ansh9boss.vercel.app-DB61A2?style=for-the-badge&logo=minecraft&logoColor=white" alt="Cheats Analyzer" />
+  </a>
+  <a href="https://aetheruiv2.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/UI/UX_Library-aetheruiv2.vercel.app-00F2FE?style=for-the-badge&logo=react&logoColor=white" alt="UI UX Library" />
+  </a>
+</p>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/ANSH9BOSS/ANSH9BOSS/main/divider.svg" alt="divider" width="100%" />
