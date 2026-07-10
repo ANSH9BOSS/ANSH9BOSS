@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="100%" height="300" style="background: #0d0e15; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#07080e" />
+      <stop offset="50%" stop-color="#0f111a" />
+      <stop offset="100%" stop-color="#050508" />
+    </linearGradient>
+
+    <!-- Glowing Violet-Magenta Gradient -->
+    <linearGradient id="glow-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a371f7" />
+      <stop offset="50%" stop-color="#db61a2" />
+      <stop offset="100%" stop-color="#7928ca" />
+    </linearGradient>
+
+    <!-- Cyan-Blue Gradient -->
+    <linearGradient id="cyber-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#4facfe" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Subtle Glow for Grid -->
+    <filter id="subtle-glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    /* CSS Animations */
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 5px rgba(163, 113, 247, 0.6)); }
+      50% { opacity: 1; filter: drop-shadow(0 0 20px rgba(219, 97, 162, 0.9)); }
+    }
+    
+    @keyframes grid-move {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(40px); }
+    }
+
+    @keyframes scanline {
+      0% { top: 0%; opacity: 0.1; }
+      50% { opacity: 0.3; }
+      100% { top: 100%; opacity: 0.1; }
+    }
+
+    @keyframes float-particle {
+      0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+      50% { transform: translateY(-15px) translateX(10px); opacity: 0.8; }
+    }
+
+    @keyframes float-particle-reverse {
+      0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
+      50% { transform: translateY(15px) translateX(-10px); opacity: 0.9; }
+    }
+
+    @keyframes draw-dash {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes text-fade {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    /* Classes */
+    .bg-rect {
+      fill: url(#bg-grad);
+    }
+
+    .grid-lines {
+      stroke: #1b1d2a;
+      stroke-width: 1;
+      opacity: 0.6;
+    }
+
+    .moving-grid {
+      animation: grid-move 8s linear infinite;
+    }
+
+    .glow-title {
+      font-size: 58px;
+      font-weight: 900;
+      letter-spacing: 5px;
+      fill: none;
+      stroke: url(#glow-grad);
+      stroke-width: 2.5;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: draw-dash 4s ease-out forwards, pulse-glow 4s ease-in-out infinite 4s;
+    }
+
+    .title-fill {
+      font-size: 58px;
+      font-weight: 900;
+      letter-spacing: 5px;
+      fill: url(#glow-grad);
+      opacity: 0;
+      animation: fade-in 2s ease-out forwards 3s;
+    }
+
+    @keyframes fade-in {
+      to { opacity: 1; }
+    }
+
+    .glow-sub {
+      font-size: 16px;
+      font-weight: 600;
+      fill: url(#cyber-grad);
+      letter-spacing: 3px;
+      opacity: 0;
+      animation: fade-in 2.5s ease-out forwards 2s;
+    }
+
+    .particle-1 { animation: float-particle 6s ease-in-out infinite; }
+    .particle-2 { animation: float-particle-reverse 8s ease-in-out infinite; }
+    .particle-3 { animation: float-particle 5s ease-in-out infinite 1s; }
+    
+    .tech-pill {
+      font-size: 12px;
+      fill: #6272a4;
+      font-family: monospace;
+      opacity: 0.8;
+      animation: text-fade 3s ease-in-out infinite;
+    }
+
+    /* Cyberpunk decorative elements */
+    .corner-line {
+      stroke: #a371f7;
+      stroke-width: 2;
+      fill: none;
+      opacity: 0.8;
+      filter: url(#subtle-glow);
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="300" class="bg-rect" />
+
+  <!-- Animated Grid (Perspective effect) -->
+  <g class="moving-grid" opacity="0.7">
+    <!-- Horizontal lines -->
+    <line x1="0" y1="20" x2="800" y2="20" class="grid-lines" />
+    <line x1="0" y1="60" x2="800" y2="60" class="grid-lines" />
+    <line x1="0" y1="100" x2="800" y2="100" class="grid-lines" />
+    <line x1="0" y1="140" x2="800" y2="140" class="grid-lines" />
+    <line x1="0" y1="180" x2="800" y2="180" class="grid-lines" />
+    <line x1="0" y1="220" x2="800" y2="220" class="grid-lines" />
+    <line x1="0" y1="260" x2="800" y2="260" class="grid-lines" />
+    <line x1="0" y1="300" x2="800" y2="300" class="grid-lines" />
+  </g>
+  
+  <!-- Vertical lines (converging for perspective) -->
+  <g opacity="0.3">
+    <line x1="100" y1="0" x2="-200" y2="300" class="grid-lines" />
+    <line x1="250" y1="0" x2="50" y2="300" class="grid-lines" />
+    <line x1="400" y1="0" x2="400" y2="300" class="grid-lines" />
+    <line x1="550" y1="0" x2="750" y2="300" class="grid-lines" />
+    <line x1="700" y1="0" x2="1000" y2="300" class="grid-lines" />
+  </g>
+
+  <!-- Glowing Particles -->
+  <circle cx="150" cy="80" r="3" fill="#a371f7" filter="url(#subtle-glow)" class="particle-1" />
+  <circle cx="680" cy="90" r="4" fill="#db61a2" filter="url(#subtle-glow)" class="particle-2" />
+  <circle cx="200" cy="220" r="2.5" fill="#00f2fe" filter="url(#subtle-glow)" class="particle-3" />
+  <circle cx="620" cy="230" r="3.5" fill="#a371f7" filter="url(#subtle-glow)" class="particle-1" />
+  <circle cx="100" cy="180" r="2" fill="#db61a2" filter="url(#subtle-glow)" class="particle-2" />
+
+  <!-- Cyberpunk Frame Elements -->
+  <path d="M 20,40 L 20,20 L 40,20" class="corner-line" />
+  <path d="M 780,40 L 780,20 L 760,20" class="corner-line" />
+  <path d="M 20,260 L 20,280 L 40,280" class="corner-line" />
+  <path d="M 780,260 L 780,280 L 760,280" class="corner-line" />
+
+  <!-- Subtitle line decoration -->
+  <line x1="250" y1="205" x2="550" y2="205" stroke="#1b1d2a" stroke-width="1" />
+  <line x1="350" y1="205" x2="450" y2="205" stroke="url(#cyber-grad)" stroke-width="2" filter="url(#subtle-glow)" />
+
+  <!-- Central Header Text -->
+  <g transform="translate(400, 140)" text-anchor="middle">
+    <!-- Glow Backing -->
+    <text y="0" class="glow-title" filter="url(#glow)">ANSH9BOSS</text>
+    <!-- Main Fill Text -->
+    <text y="0" class="title-fill">ANSH9BOSS</text>
+    
+    <!-- Subtitle -->
+    <text y="45" class="glow-sub">OVERALL DEVELOPER &amp; SYSTEMS ENGINEER</text>
+  </g>
+
+  <!-- Technical Tags at the Bottom -->
+  <g transform="translate(400, 250)" text-anchor="middle" class="tech-pill">
+    <text>SECURITY • VIRTUALIZATION • AI AGENTS • MINECRAFT MODS</text>
+  </g>
+</svg>

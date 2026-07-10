@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/ANSH9BOSS">
-    <img src="https://capsule-render.vercel.app/api?type=transparent&fontColor=db61a2&fontSize=54&height=90&width=666&text=Hello!%20I'm%20ANSH9BOSS" alt="Hello! I'm ANSH9BOSS" />
+    <img src="https://raw.githubusercontent.com/ANSH9BOSS/ANSH9BOSS/main/banner.svg" alt="ANSH9BOSS Banner" width="100%" />
   </a>
 </p>
 
@@ -15,6 +15,10 @@ I am a full-stack Overall Developer specializing in low-level game security engi
 🔭 &nbsp;I'm currently working on **Stitch Analyzer, Quorox Cloud, and Skript Builder AI**  
 💬 &nbsp;Ask me about **Minecraft modifications, anti-cheats, virtualization, or custom bots**  
 ⚡ &nbsp;Fun fact: **I design and deploy custom bots and high-availability servers**
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ANSH9BOSS/ANSH9BOSS/main/divider.svg" alt="divider" width="100%" />
+</p>
 
 ### 🛠️ Tech Stack
 
@@ -34,11 +38,19 @@ I am a full-stack Overall Developer specializing in low-level game security engi
   <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ANSH9BOSS/ANSH9BOSS/main/divider.svg" alt="divider" width="100%" />
+</p>
+
 ### 📊 GitHub Stats
 
 <p align="center">
   <img height="165" src="https://github-readme-stats-five-sigma-99.vercel.app/api?username=ANSH9BOSS&show_icons=true&theme=tokyonight&title_color=db61a2&icon_color=db61a2&hide_border=true&bg_color=00000000&count_private=true" alt="stats" />
   <img height="165" src="https://github-readme-stats-five-sigma-99.vercel.app/api/top-langs/?username=ANSH9BOSS&layout=compact&theme=tokyonight&title_color=db61a2&icon_color=db61a2&hide_border=true&bg_color=00000000&langs_count=8" alt="top langs" />
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ANSH9BOSS/ANSH9BOSS/main/divider.svg" alt="divider" width="100%" />
 </p>
 
 ### 📈 Contribution Graph
@@ -47,11 +59,18 @@ I am a full-stack Overall Developer specializing in low-level game security engi
   <img width="100%" src="https://github-readme-activity-graph.vercel.app/graph?username=ANSH9BOSS&bg_color=00000000&color=db61a2&line=db61a2&point=c9d1d9&area=true&hide_border=true" alt="activity graph" />
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ANSH9BOSS/ANSH9BOSS/main/divider.svg" alt="divider" width="100%" />
+</p>
+
 ### 💭 Dev Quote
 
 <p align="center">
   <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight" alt="Dev quote" />
 </p>
 
----
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ANSH9BOSS/ANSH9BOSS/main/divider.svg" alt="divider" width="100%" />
+</p>
+
 <p align="center"><i>⭐️ From <a href="https://github.com/ANSH9BOSS">ANSH9BOSS</a></i></p>
